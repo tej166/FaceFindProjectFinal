@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Face Recognition App{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            overflow: hidden;
+            background: linear-gradient(to right, #140701, #140701); /* Gradient background */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow */
+            transition: top 0.3s;
+            z-index: 1000; /* Ensure the navbar is above other content */
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #fff; /* Text color */
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+
+        .navbar a:hover {
+            background-color: #333; /* Background color on hover */
+            color: #ff6600; /* Text color on hover */
+        }
+
+        /* Additional styles */
+        .feedback-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease; /* Add transition */
+            margin: 100px auto; /* Center the feedback container */
+        }
+
+        .feedback-container:hover {
+            transform: translateY(-5px); /* Add hover effect */
+        }
+
+        .feedback-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px; /* Increase font size */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 20px; /* Adjusted padding */
+            border: 2px solid #9b59b6; /* Added border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: transparent; /* Transparent background */
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease; /* Add transition */
+            outline: none; /* Remove outline */
+        }
+
+        input[type="text"].error,
+        textarea.error {
+            border: 2px solid red; /* Red border for error */
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #ff6600; /* Change border color on focus */
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 20px; /* Adjusted padding */
+            border: 2px solid #9b59b6; /* Added border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: transparent; /* Transparent background */
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease; /* Add transition */
+            outline: none; /* Remove outline */
+        }
+
+        select:focus {
+            border-color: #ff6600; /* Change border color on focus */
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px; /* Adjusted padding */
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease; /* Add transition */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .sign-up {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .sign-up a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        .sign-up a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('about') }}">ABOUT US</a>
+        <a href="{{ url_for('login') }}">LOGIN</a>
+        <a href="{{ url_for('feedback') }}">FEEDBACK</a>
+        
+        <!-- Add more navigation items here -->
+    </div>
+
+    <!-- Page content -->
+    <div class="feedback-container">
+        <h2>Feedback Form</h2>
+        <form id="feedback-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="goal">Did you achieve your goal?</label>
+                <select id="goal" name="goal" required>
+                    <option value="">Select...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Enter your message" required></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="sign-up">Want to give more feedback? <a href="{{ url_for('feedback') }}">Send another feedback</a></div>
+    </div>
+
+    <script>
+        document.getElementById('feedback-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form values
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var goal = document.getElementById('goal').value;
+            var message = document.getElementById('message').value;
+
+            // Perform form validation
+            if (name.trim() === '' || email.trim() === '' || goal.trim() === '' || message.trim() === '') {
+                alert('Please fill in all fields.');
+            } else {
+                // Submit form (you can replace this with your desired action)
+                alert('Feedback submitted successfully!');
+                document.getElementById('feedback-form').reset(); // Reset form
+            }
+        });
+    </script>
+</body>
+</html>

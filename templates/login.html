@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Face Recognition App{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            overflow: hidden;
+            background: linear-gradient(to right, #140701, #140701); /* Gradient background */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow */
+            transition: top 0.3s;
+            z-index: 1000; /* Ensure the navbar is above other content */
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #fff; /* Text color */
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+
+        .navbar a:hover {
+            background-color: #333; /* Background color on hover */
+            color: #ff6600; /* Text color on hover */
+        }
+
+        /* Additional styles */
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease; /* Add transition */
+            margin: 100px auto; /* Center the login container */
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px); /* Add hover effect */
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px; /* Increase font size */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 20px; /* Adjusted padding */
+            border: none;
+            border-bottom: 2px solid #9b59b6; /* Added bottom border */
+            background-color: transparent; /* Transparent background */
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease; /* Add transition */
+            outline: none; /* Remove outline */
+        }
+
+        input[type="text"].error,
+        input[type="password"].error {
+            border-bottom: 2px solid red; /* Red underline for error */
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: transparent; /* Change border color on focus */
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px; /* Adjusted padding */
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease; /* Add transition */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .sign-up {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .sign-up a {
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        .sign-up a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('about') }}">ABOUT US</a>
+        <a href="{{ url_for('login') }}">LOGIN</a>
+        <a href="{{ url_for('feedback') }}">FEEDBACK</a>
+        
+        <!-- Add more navigation items here -->
+    </div>
+
+    <!-- Page content -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email"><i class="far fa-envelope"></i>Email Address</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                <div id="email-error-message" style="color: red;"></div> <!-- Error message placeholder for email -->
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i>Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div id="password-error-message" style="color: red;"></div> <!-- Error message placeholder for password -->
+            </div>
+            <div id="error-message" style="color: red;"></div> <!-- General error message placeholder -->
+            <button type="submit">Login</button>
+        </form>
+        <div class="sign-up">Don't have an account? <a href="{{ url_for('signin') }}">Sign Up</a></div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+          
+          
+
+            // Get email and password input values
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            var user = JSON.parse(localStorage.getItem(email));
+
+            if (user && user.password === password) {
+                // Show success message
+                var successMessage = document.createElement('div');
+                successMessage.textContent = 'Login successful!';
+                successMessage.classList.add('success-message');
+                document.body.appendChild(successMessage);
+
+                window.location.href = '{{ url_for('signup') }}'; // Redirect to main.html
+            } else {
+                
+                // Show specific error messages for email and password
+                document.getElementById('email-error-message').textContent = 'Wrong email';
+                document.getElementById('password-error-message').textContent = 'Wrong password';
+
+                // Highlight input fields with red underline
+                document.getElementById('email').classList.add('error');
+                document.getElementById('password').classList.add('error');
+
+                // Remove error styles after 3 seconds
+                setTimeout(function() {
+                    document.getElementById('error-message').textContent = '';
+                    document.getElementById('email-error-message').textContent = '';
+                    document.getElementById('password-error-message').textContent = '';
+                    document.getElementById('email').classList.remove('error');
+                    document.getElementById('password').classList.remove('error');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

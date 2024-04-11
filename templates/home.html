@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Page</title>
+    <style>
+        /* Navbar styles */
+        .navbar {
+            overflow: hidden;
+            background: #000; /* Black background */
+            position: fixed;
+            top: 0;
+            left: 0; /* Ensure navbar starts from the left */
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow */
+            transition: top 0.3s;
+            z-index: 1000; /* Ensure the navbar is above other content */
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #fff; /* Text color */
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 17px;
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+
+        .navbar a:hover {
+            background-color: #333; /* Background color on hover */
+            color: #ff6600; /* Text color on hover */
+        }
+
+        /* Page content styles */
+        body {
+            margin: 0; /* Reset default margin */
+            padding: 0;
+            font-family: 'Montserrat', sans-serif; /* Use Montserrat font */
+            background-color: #f8f9fa; /* Lightened background color */
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Cg fill="%23d3d3d3" fill-opacity="0.1"%3E%3Cpath fill-rule="evenodd" d="M0 0h40v40H0V0zm40 40h40v40H40V40zM0 40h40v40H0V40zm40 0h40v40H40V40z" fill="%23000000" fill-opacity="0.04"%3E%3C/path%3E%3C/g%3E%3C/svg%3E'); /* Background pattern */
+        }
+
+        h1 {
+            color: #333; /* Heading color */
+            text-align: left; /* Center align heading */
+        }
+
+        p {
+            color: #555; /* Paragraph color */
+            text-align: left; /* Center align paragraph */
+        }
+
+        /* Slider styles */
+        .slider {
+            position: relative;
+            width: 100%;
+            text-align:right; /* Align text to the left */
+            margin-top: 140px; /* Adjust slider top margin */
+        }
+
+        .slide {
+            display: none; /* Hide all slides by default */
+        }
+
+        /* Slide text styles */
+        .slide-text {
+    position: absolute;
+    top: 50%;
+    left: 0; /* Align text to the left */
+    transform: translateY(-50%);
+    width: 80%; /* Adjust slide text width */
+    padding: 40px; /* Add padding to text */
+    background-color: rgba(0, 0, 0, 0.0); /* Black transparent background */
+    color: #000; /* Text color */
+    padding-left: 50px; /* Add padding to the left */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    font-size: 30px; /* Increase font size for slide text */
+}
+
+
+        .slide-text h2,
+        .slide-text p {
+            text-align: left; /* Align headings and paragraphs to the left */
+        }
+
+        /* Card styles */
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 300px;
+            padding: 0 20px;
+        }
+
+        .card {
+            width: 30%;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Additional section styles */
+        .precautions-section {
+            background-image: url('https://img.freepik.com/free-photo/people-wearing-life-jackets-migration-crisis_23-2150901870.jpg'); /* Replace 'your-image-url.jpg' with the URL of your desired image */
+            background-size: cover; /* Cover the entire background with the image */
+            color: #fff; /* Text color */
+            padding: 50px; /* Padding around content */
+            text-align: center; /* Center align text */
+            margin-top: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .precautions-section h2 {
+            margin-bottom: 20px; /* Add some space below the heading */
+        }
+
+        .precautions-section ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0;
+        }
+
+        .precautions-section li {
+            margin-bottom: 10px; /* Add some space between list items */
+        }
+
+        /* Contact section styles */
+        .contact-section {
+            background: linear-gradient(to right, #000000, #000000); /* Gradient background */
+            color: #fff; /* Text color */
+            padding: 50px; /* Padding around content */
+            text-align: center; /* Center align text */
+            margin-top: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-section h2 {
+            margin-bottom: 20px; /* Add some space below the heading */
+        }
+
+        .contact-section p {
+            margin-bottom: 30px; /* Add some space below the paragraph */
+        }
+
+        .contact-section form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-section input,
+        .contact-section textarea {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .contact-section button {
+            width: 40%;
+            padding: 10px;
+            background-color: #ff6600; /* Orange background */
+            color: #fff; /* Text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .contact-section button:hover {
+            background-color: #ff4500; /* Darker orange background color on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('about') }}">ABOUT US</a>
+        <a href="{{ url_for('login') }}">LOGIN</a>
+        <a href="{{ url_for('feedback') }}">FEEDBACK</a>
+    </div>
+
+    <!-- Page content -->
+    <div class="content">
+        <!-- Additional section - Precautions During Disaster -->
+        <div class="precautions-section">
+            <h2>Precautions During Disaster</h2>
+            <ul>
+                <li>Stay informed about the disaster and follow the advice of local authorities.</li>
+                <li>Prepare an emergency kit with essential supplies such as food, water, and first aid items.</li>
+                <li>Have a communication plan in place with family members and loved ones.</li>
+                <li>Evacuate to a safe location if instructed to do so by authorities.</li>
+                <li>Avoid flooded areas and areas prone to landslides or other hazards.</li>
+                <li>Stay calm and help others in need if it is safe to do so.</li>
+            </ul>
+        </div>
+
+        <!-- Slider -->
+        <div class="slider">
+            <div class="slide">
+                <div class="slide-text">
+                    <h2>RETROUVER: PROVIDING AID AND COMFORT WHEN IT'S NEEDED MOST.</h2>
+                    <p>Innovative facial recognition systems: Ensuring no loved one goes unidentified in times of need.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2>FACIAL RECOGNITION</h2>
+                    <p>"Retrouver-Together We Come" is a web application that provides a way to help reconnect disaster victims with their family members.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2>SEARCHING</h2>
+                    <p>It aims to allow users to create their profiles along with adding details of the person that needs to be found. It then searches for a profile similar to the victim’s profile from its database.</p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-text">
+                    <h2>ABOUT US</h2>
+                    <p>Retrouver is a website that helps families find their loved ones during natural disasters. Our mission is to provide a platform where families can upload their loved ones' photos and use advanced algorithms to find similar profiles. We also provide general information about natural disasters and the precautions that need to be taken.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card section -->
+        <div class="card-container">
+            <div class="card">
+                <div class="card-icon">&#128104;</div>
+                <div class="card-title">FACIAL RECOGNITION</div>
+                <div class="card-description">"Retrouver-Together We Come" is a web application that provides a way to help reconnect disaster victims with their family members.</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">&#128269;</div>
+                <div class="card-title">SEARCHING</div>
+                <div class="card-description">It aims to allow users to create their profiles along with adding details of the person that needs to be found. It then searches for a profile similar to the victim’s profile from its database.</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">&#128188;</div>
+                <div class="card-title">ABOUT US</div>
+                <div class="card-description">Retrouver is a website that helps families find their loved ones during natural disasters. Our mission is to provide a platform where families can upload their loved ones' photos and use advanced algorithms to find similar profiles. We also provide general information about natural disasters and the precautions that need to be taken.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Us section -->
+    <div class="contact-section">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or concerns, feel free to reach out to us.</p>
+        <form action="#" method="post">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript for slideshow functionality (optional)
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("slide");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            slides[slideIndex - 1].style.display = "block";  
+            setTimeout(showSlides, 5000); // Change slide every 5 seconds
+        }
+    </script>
+</body>
+</html>
